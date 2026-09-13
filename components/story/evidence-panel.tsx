@@ -7,9 +7,10 @@ import type { TurningPoint } from "@/lib/analysis/types";
 interface EvidencePanelProps {
   turningPoint: TurningPoint | null;
   onClose: () => void;
+  repoHtmlUrl?: string;
 }
 
-export function EvidencePanel({ turningPoint, onClose }: EvidencePanelProps) {
+export function EvidencePanel({ turningPoint, onClose, repoHtmlUrl }: EvidencePanelProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -155,7 +156,18 @@ export function EvidencePanel({ turningPoint, onClose }: EvidencePanelProps) {
                       className="surface-card p-3 space-y-1 hover:border-border/90 transition"
                     >
                       <div className="flex items-center justify-between text-xs font-mono">
-                        <span className="text-accent font-medium">{c.shortSha}</span>
+                        {repoHtmlUrl ? (
+                          <a
+                            href={`${repoHtmlUrl}/commit/${c.sha}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-accent font-medium hover:underline inline-flex items-center gap-1"
+                          >
+                            {c.shortSha} ↗
+                          </a>
+                        ) : (
+                          <span className="text-accent font-medium">{c.shortSha}</span>
+                        )}
                         <span className="text-muted">{c.author}</span>
                       </div>
                       <p className="text-xs font-mono text-foreground/90">{c.message}</p>

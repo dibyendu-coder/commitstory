@@ -1,9 +1,6 @@
 import Link from "next/link";
 import { AppShell } from "@/components/layout/app-shell";
-import { RepoHeader } from "@/components/repository/repo-header";
-import { RepoDna } from "@/components/repository/repo-dna";
-import { RepoContributors } from "@/components/repository/repo-contributors";
-import { RepoTimeline } from "@/components/repository/repo-timeline";
+import { ExploreStoryView } from "@/components/story";
 import {
   fetchRepositoryMetadata,
   fetchCommitHistory,
@@ -11,10 +8,8 @@ import {
   fetchReleases,
   GitHubFetchError,
 } from "@/lib/github";
-import type { RepositoryAnalysisData } from "@/types/repository";
-
-import { StorySoFar } from "@/components/story/story-so-far";
 import { analyzeRepository } from "@/lib/analysis";
+import type { RepositoryAnalysisData } from "@/types/repository";
 
 interface ExplorePageProps {
   params: Promise<{
@@ -26,8 +21,8 @@ interface ExplorePageProps {
 export async function generateMetadata({ params }: ExplorePageProps) {
   const { owner, repo } = await params;
   return {
-    title: `${owner}/${repo} — CommitStory`,
-    description: `Interactive historical timeline and codebase story for ${owner}/${repo}`,
+    title: `The Story of ${owner}/${repo} — CommitStory`,
+    description: `Interactive documentary timeline and codebase evolution for ${owner}/${repo}`,
   };
 }
 
@@ -112,7 +107,7 @@ export default async function ExplorePage({ params }: ExplorePageProps) {
 
   return (
     <AppShell>
-      <div className="space-y-8 pt-4">
+      <div className="space-y-4 pt-4">
         <div className="flex items-center justify-between">
           <Link
             href="/"
@@ -125,11 +120,7 @@ export default async function ExplorePage({ params }: ExplorePageProps) {
           </span>
         </div>
 
-        <RepoHeader summary={data.summary} />
-        <RepoDna stats={data.stats} />
-        {data.intelligence && <StorySoFar intelligence={data.intelligence} />}
-        <RepoContributors contributors={data.contributors} />
-        <RepoTimeline commits={data.commits} releases={data.releases} />
+        <ExploreStoryView data={data} />
       </div>
     </AppShell>
   );
