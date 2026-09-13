@@ -14,8 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CommitStory",
-  description: "Every codebase has a story.",
+  title: "CommitStory — Interactive GitHub Repository Stories",
+  description: "CommitStory transforms raw Git history into an interactive documentary narrative of turning points, contributor waves, releases, and codebase evolution.",
+  openGraph: {
+    title: "CommitStory — Interactive GitHub Repository Stories",
+    description: "Every codebase has a story. Explore turning points, chapters, and replay repository history.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
